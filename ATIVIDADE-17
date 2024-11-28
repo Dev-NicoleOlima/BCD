@@ -1,0 +1,77 @@
+
+
+1. **Criar o banco de dados `db_mercado`:**
+   ```sql
+   CREATE DATABASE db_mercado;
+   ```
+
+2. **Criar as tabelas `tb_fornecedor` e `tb_produtos`:**
+   ```sql
+   CREATE TABLE tb_fornecedor (
+       id_fornecedor INT PRIMARY KEY AUTO_INCREMENT,
+       nome VARCHAR(100),
+       telefone VARCHAR(15),
+       email VARCHAR(100)
+   );
+
+   CREATE TABLE tb_produto (
+       id_produto INT PRIMARY KEY AUTO_INCREMENT,
+       nome VARCHAR(100),
+       preco DECIMAL(10, 2),
+       qtd_estoque INT,
+       id_fornecedor INT,
+       FOREIGN KEY (id_fornecedor) REFERENCES tb_fornecedor(id_fornecedor)
+   );
+   ```
+
+3. **Alterar um campo da primeira tabela, por exemplo, para o tipo `VARCHAR(50)`:**
+   ```sql
+   ALTER TABLE tb_fornecedor 
+   MODIFY COLUMN telefone VARCHAR(50);
+   ```
+
+4. **Alterar a segunda tabela adicionando um campo:**
+   ```sql
+   ALTER TABLE tb_produto 
+   ADD descricao VARCHAR(255);
+   ```
+
+5. **Remover um campo da primeira tabela:**
+   ```sql
+   ALTER TABLE tb_fornecedor 
+   DROP COLUMN email;
+   ```
+
+6. **Selecionar os nomes dos objetos e mais duas características da primeira tabela:**
+   ```sql
+   SELECT nome, telefone, id_fornecedor 
+   FROM tb_fornecedor;
+   ```
+
+7. **Calcular a média dos preços dos produtos em `tb_produto`:**
+   ```sql
+   SELECT AVG(preco) AS media_preco 
+   FROM tb_produto;
+   ```
+
+8. **Selecionar todos os produtos que possuam interseção nas tabelas:**
+   ```sql
+   SELECT tb_produto.nome, tb_fornecedor.nome AS fornecedor
+   FROM tb_produto
+   INNER JOIN tb_fornecedor ON tb_produto.id_fornecedor = tb_fornecedor.id_fornecedor;
+   ```
+
+9. **Criar uma *view* que apresenta a soma do estoque total:**
+   ```sql
+   CREATE VIEW view_estoque_total AS
+   SELECT SUM(preco * qtd_estoque) AS valor_total_estoque
+   FROM tb_produto;
+   ```
+
+10. **Criar uma *view* que lista todos os produtos e seus fornecedores:**
+    
+    CREATE VIEW view_produtos_fornecedores AS
+    SELECT tb_produto.nome AS produto, tb_fornecedor.nome AS fornecedor
+    FROM tb_produto
+    INNER JOIN tb_fornecedor ON tb_produto.id_fornecedor = tb_fornecedor.id_fornecedor;
+    
